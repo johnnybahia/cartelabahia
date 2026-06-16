@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; }
         svg { display: inline-block; vertical-align: middle; }
@@ -27,378 +26,849 @@
     <div id="root"></div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var src = document.getElementById('app-jsx').textContent;
-            var compiled = Babel.transform(src, { presets: ['react'] }).code;
-            var s = document.createElement('script');
-            s.textContent = compiled;
-            document.body.appendChild(s);
+// --- ÍCONES ---
+const Icon = ({
+  p,
+  children
+}) => /*#__PURE__*/React.createElement("svg", {
+  ...p,
+  width: p.size || 16,
+  height: p.size || 16,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: "2",
+  strokeLinecap: "round",
+  strokeLinejoin: "round"
+}, children);
+const Search = p => /*#__PURE__*/React.createElement(Icon, {
+  p: p
+}, /*#__PURE__*/React.createElement("circle", {
+  cx: "11",
+  cy: "11",
+  r: "8"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "21",
+  y1: "21",
+  x2: "16.65",
+  y2: "16.65"
+}));
+const Plus = p => /*#__PURE__*/React.createElement(Icon, {
+  p: p
+}, /*#__PURE__*/React.createElement("line", {
+  x1: "12",
+  y1: "5",
+  x2: "12",
+  y2: "19"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "5",
+  y1: "12",
+  x2: "19",
+  y2: "12"
+}));
+const Trash2 = p => /*#__PURE__*/React.createElement(Icon, {
+  p: p
+}, /*#__PURE__*/React.createElement("polyline", {
+  points: "3 6 5 6 21 6"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "10",
+  y1: "11",
+  x2: "10",
+  y2: "17"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "14",
+  y1: "11",
+  x2: "14",
+  y2: "17"
+}));
+const XIcon = p => /*#__PURE__*/React.createElement(Icon, {
+  p: p
+}, /*#__PURE__*/React.createElement("line", {
+  x1: "18",
+  y1: "6",
+  x2: "6",
+  y2: "18"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "6",
+  y1: "6",
+  x2: "18",
+  y2: "18"
+}));
+const Box = p => /*#__PURE__*/React.createElement(Icon, {
+  p: p
+}, /*#__PURE__*/React.createElement("path", {
+  d: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+}), /*#__PURE__*/React.createElement("polyline", {
+  points: "3.27 6.96 12 12.01 20.73 6.96"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "12",
+  y1: "22.08",
+  x2: "12",
+  y2: "12"
+}));
+const CheckCircle = p => /*#__PURE__*/React.createElement(Icon, {
+  p: p
+}, /*#__PURE__*/React.createElement("path", {
+  d: "M22 11.08V12a10 10 0 1 1-5.93-9.14"
+}), /*#__PURE__*/React.createElement("polyline", {
+  points: "22 4 12 14.01 9 11.01"
+}));
+const ArrowLeft = p => /*#__PURE__*/React.createElement(Icon, {
+  p: p
+}, /*#__PURE__*/React.createElement("line", {
+  x1: "19",
+  y1: "12",
+  x2: "5",
+  y2: "12"
+}), /*#__PURE__*/React.createElement("polyline", {
+  points: "12 19 5 12 12 5"
+}));
+const Pencil = p => /*#__PURE__*/React.createElement(Icon, {
+  p: p
+}, /*#__PURE__*/React.createElement("path", {
+  d: "M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"
+}));
+const MapPin = p => /*#__PURE__*/React.createElement(Icon, {
+  p: p
+}, /*#__PURE__*/React.createElement("path", {
+  d: "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
+}), /*#__PURE__*/React.createElement("circle", {
+  cx: "12",
+  cy: "10",
+  r: "3"
+}));
+const RefreshCw = p => /*#__PURE__*/React.createElement(Icon, {
+  p: p
+}, /*#__PURE__*/React.createElement("polyline", {
+  points: "23 4 23 10 17 10"
+}), /*#__PURE__*/React.createElement("polyline", {
+  points: "1 20 1 14 7 14"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
+}));
+const AlertTriangle = p => /*#__PURE__*/React.createElement(Icon, {
+  p: p
+}, /*#__PURE__*/React.createElement("path", {
+  d: "M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "12",
+  y1: "9",
+  x2: "12",
+  y2: "13"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "12",
+  y1: "17",
+  x2: "12.01",
+  y2: "17"
+}));
+const Clock = p => /*#__PURE__*/React.createElement(Icon, {
+  p: p
+}, /*#__PURE__*/React.createElement("circle", {
+  cx: "12",
+  cy: "12",
+  r: "10"
+}), /*#__PURE__*/React.createElement("polyline", {
+  points: "12 6 12 12 16 14"
+}));
+const Filter = p => /*#__PURE__*/React.createElement(Icon, {
+  p: p
+}, /*#__PURE__*/React.createElement("polygon", {
+  points: "22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"
+}));
+const XCircle = p => /*#__PURE__*/React.createElement(Icon, {
+  p: p
+}, /*#__PURE__*/React.createElement("circle", {
+  cx: "12",
+  cy: "12",
+  r: "10"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "15",
+  y1: "9",
+  x2: "9",
+  y2: "15"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "9",
+  y1: "9",
+  x2: "15",
+  y2: "15"
+}));
+const Lock = p => /*#__PURE__*/React.createElement(Icon, {
+  p: p
+}, /*#__PURE__*/React.createElement("rect", {
+  x: "3",
+  y: "11",
+  width: "18",
+  height: "11",
+  rx: "2",
+  ry: "2"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M7 11V7a5 5 0 0 1 10 0v4"
+}));
+const {
+  useState,
+  useEffect,
+  useMemo
+} = React;
+const normalizeStr = str => str ? str.toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().trim() : "";
+const formatDate = d => d || '-';
+
+// --- NOVO CARD BAHIA ---
+const CardItem = ({
+  item,
+  isInteractive = true,
+  onEditLocation,
+  onDelete
+}) => /*#__PURE__*/React.createElement("div", {
+  className: `bg-white rounded-lg border border-slate-300 shadow-sm flex flex-col lg:flex-row overflow-hidden ${isInteractive ? 'card-row' : ''}`
+}, /*#__PURE__*/React.createElement("div", {
+  className: "w-full lg:w-56 bg-slate-50 border-b lg:border-b-0 lg:border-r border-slate-300 p-4 flex flex-col justify-center items-center shrink-0"
+}, /*#__PURE__*/React.createElement("div", {
+  className: "w-full mb-3 flex flex-col items-center gap-2"
+}, item.caixa ? /*#__PURE__*/React.createElement("div", {
+  className: "bg-slate-900 text-white py-2 px-2 rounded-md text-center shadow-sm w-full"
+}, /*#__PURE__*/React.createElement("span", {
+  className: "block text-[10px] text-slate-400 uppercase font-bold tracking-widest"
+}, "LOCALIZAÇÃO"), /*#__PURE__*/React.createElement("span", {
+  className: "block text-lg font-extrabold uppercase tracking-wide"
+}, "CAIXA: ", item.caixa)) : /*#__PURE__*/React.createElement("div", {
+  className: "bg-red-50 border border-red-100 text-red-600 py-2 px-2 rounded-md text-center w-full"
+}, /*#__PURE__*/React.createElement("span", {
+  className: "block text-xs font-bold leading-tight"
+}, "Verificar localização com a pessoa responsável")), isInteractive && /*#__PURE__*/React.createElement("button", {
+  onClick: () => onEditLocation(item),
+  className: "text-xs flex items-center gap-1 px-3 py-1 bg-white border border-slate-200 rounded-full text-blue-600 font-semibold hover:bg-blue-50 transition-colors shadow-sm"
+}, /*#__PURE__*/React.createElement(Pencil, {
+  size: 12
+}), " Alterar")), /*#__PURE__*/React.createElement("div", {
+  className: "w-full text-center border-t border-slate-200 pt-2"
+}, /*#__PURE__*/React.createElement("span", {
+  className: "block text-[10px] text-slate-400 font-bold uppercase mb-0.5"
+}, "CÓDIGO"), /*#__PURE__*/React.createElement("span", {
+  className: "block font-mono text-xl font-black text-slate-700 tracking-tight"
+}, item.codigo || "-"))), /*#__PURE__*/React.createElement("div", {
+  className: "flex-1 grid grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 bg-white"
+}, /*#__PURE__*/React.createElement("div", {
+  className: "col-span-12 lg:col-span-4 p-3 flex flex-col justify-center"
+}, /*#__PURE__*/React.createElement("div", {
+  className: "mb-3"
+}, /*#__PURE__*/React.createElement("label", {
+  className: "block text-[10px] font-bold text-slate-400 uppercase tracking-wider"
+}, "CLIENTE"), /*#__PURE__*/React.createElement("div", {
+  className: "text-sm font-bold text-slate-900 leading-snug break-words"
+}, item.cliente || "-")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+  className: "block text-[10px] font-bold text-slate-400 uppercase tracking-wider"
+}, "NOME DO ITEM"), /*#__PURE__*/React.createElement("div", {
+  className: "text-sm text-slate-700 font-medium break-words"
+}, item.nome || "-"))), /*#__PURE__*/React.createElement("div", {
+  className: "col-span-12 lg:col-span-4 p-3 grid grid-cols-2 gap-y-3 gap-x-2"
+}, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+  className: "block text-[10px] font-bold text-slate-400 uppercase tracking-wider"
+}, "REF"), /*#__PURE__*/React.createElement("div", {
+  className: "text-sm text-slate-700 font-medium"
+}, item.ref || "-")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+  className: "block text-[10px] font-bold text-slate-400 uppercase tracking-wider"
+}, "COR"), /*#__PURE__*/React.createElement("div", {
+  className: "text-sm text-slate-700 font-medium break-words"
+}, item.cor || "-")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+  className: "block text-[10px] font-bold text-slate-400 uppercase tracking-wider"
+}, "LARGURA"), /*#__PURE__*/React.createElement("div", {
+  className: "text-sm text-slate-700 font-medium"
+}, item.largura || "-")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+  className: "block text-[10px] font-bold text-slate-400 uppercase tracking-wider"
+}, "ENCHIMENTO"), /*#__PURE__*/React.createElement("div", {
+  className: "text-sm text-slate-700 font-medium"
+}, item.enchimento || "-"))), /*#__PURE__*/React.createElement("div", {
+  className: "col-span-12 lg:col-span-4 p-3 bg-slate-50/30 flex flex-col h-full justify-between"
+}, /*#__PURE__*/React.createElement("div", {
+  className: "mb-2"
+}, /*#__PURE__*/React.createElement("label", {
+  className: "block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1"
+}, "OBSERVAÇÕES"), /*#__PURE__*/React.createElement("div", {
+  className: "text-xs text-slate-600 leading-relaxed whitespace-pre-wrap break-words min-h-[40px]"
+}, item.observacao || "Sem observações.")), /*#__PURE__*/React.createElement("div", {
+  className: "pt-2 border-t border-slate-200"
+}, /*#__PURE__*/React.createElement("div", {
+  className: "flex justify-between items-center mb-2"
+}, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+  className: "block text-[9px] font-bold text-slate-400 uppercase"
+}, "DATA ENTRADA"), /*#__PURE__*/React.createElement("div", {
+  className: "text-xs font-bold text-slate-700 bg-white border border-slate-200 px-2 py-0.5 rounded inline-block"
+}, formatDate(item.dataEntrada))), isInteractive && /*#__PURE__*/React.createElement("button", {
+  onClick: () => onDelete(item),
+  className: "p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors",
+  title: "Excluir"
+}, /*#__PURE__*/React.createElement(Trash2, {
+  size: 14
+}))), item.alteracoes && /*#__PURE__*/React.createElement("div", {
+  className: "flex items-center gap-1 text-[9px] text-slate-400 bg-slate-100 px-2 py-1 rounded w-fit truncate max-w-full",
+  title: item.alteracoes
+}, /*#__PURE__*/React.createElement(Clock, {
+  size: 10
+}), /*#__PURE__*/React.createElement("span", null, item.alteracoes))))));
+
+// --- SISTEMA DE MODAL ---
+const ModalSystem = ({
+  config,
+  onClose
+}) => {
+  if (!config.isOpen) return null;
+  return /*#__PURE__*/React.createElement("div", {
+    className: "fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-white rounded-xl shadow-2xl max-w-sm w-full p-6"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-start gap-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex-1"
+  }, /*#__PURE__*/React.createElement("h3", {
+    className: "text-lg font-bold text-slate-900 mb-1"
+  }, config.title || 'Aviso'), /*#__PURE__*/React.createElement("p", {
+    className: "text-slate-600 text-sm leading-relaxed"
+  }, config.message))), /*#__PURE__*/React.createElement("div", {
+    className: "mt-6 flex justify-end gap-3"
+  }, (config.type === 'confirm' || config.type === 'danger' || config.type === 'lock') && /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    className: "px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg"
+  }, "Cancelar"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => {
+      if (config.onConfirm) config.onConfirm();
+      onClose();
+    },
+    className: `px-4 py-2 text-sm font-medium text-white rounded-lg shadow-sm ${config.type === 'error' || config.type === 'danger' ? 'bg-red-600 hover:bg-red-700' : 'bg-slate-900 hover:bg-slate-800'}`
+  }, config.confirmText || 'OK'))));
+};
+function App() {
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filters, setFilters] = useState({
+    cliente: '',
+    codigo: '',
+    nome: '',
+    ref: '',
+    cor: ''
+  });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPreviewMode, setIsPreviewMode] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authAction, setAuthAction] = useState(null);
+  const [targetItem, setTargetItem] = useState(null);
+  const [newLocationValue, setNewLocationValue] = useState("");
+  const [authData, setAuthData] = useState({
+    user: '',
+    pass: ''
+  });
+  const [modalConfig, setModalConfig] = useState({
+    isOpen: false
+  });
+  const initialFormState = {
+    nome: '',
+    cor: '',
+    ref: '',
+    largura: '',
+    cliente: '',
+    caixa: '',
+    dataEntrada: new Date().toISOString().split('T')[0],
+    observacao: '',
+    codigo: '',
+    enchimento: ''
+  };
+  const [formData, setFormData] = useState(initialFormState);
+  const loadData = () => {
+    setLoading(true);
+    if (window.google && window.google.script) {
+      google.script.run.withSuccessHandler(serverData => {
+        setItems(serverData);
+        setLoading(false);
+      }).withFailureHandler(error => {
+        alert('Erro ao carregar: ' + error);
+        setLoading(false);
+      }).getCartelas();
+    } else {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    loadData();
+  }, []);
+  const handleFilterChange = e => {
+    const {
+      name,
+      value
+    } = e.target;
+    setFilters(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+  const clearFilters = () => setFilters({
+    cliente: '',
+    codigo: '',
+    nome: '',
+    ref: '',
+    cor: ''
+  });
+  const handleAuthSubmit = e => {
+    e.preventDefault();
+    if (!authData.user || !authData.pass) return alert("Preencha usuário e senha.");
+    if (authAction === 'edit') {
+      google.script.run.withSuccessHandler(() => {
+        setIsAuthModalOpen(false);
+        setIsLocationModalOpen(false);
+        setAuthData({
+          user: '',
+          pass: ''
         });
-    </script>
-    <script id="app-jsx" type="text/plain">
-        // --- ÍCONES ---
-        const Icon = ({ p, children }) => <svg {...p} width={p.size||16} height={p.size||16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{children}</svg>;
-        const Search = (p) => <Icon p={p}><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></Icon>;
-        const Plus = (p) => <Icon p={p}><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></Icon>;
-        const Trash2 = (p) => <Icon p={p}><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></Icon>;
-        const XIcon = (p) => <Icon p={p}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></Icon>;
-        const Box = (p) => <Icon p={p}><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></Icon>;
-        const CheckCircle = (p) => <Icon p={p}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></Icon>;
-        const ArrowLeft = (p) => <Icon p={p}><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></Icon>;
-        const Pencil = (p) => <Icon p={p}><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></Icon>;
-        const MapPin = (p) => <Icon p={p}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></Icon>;
-        const RefreshCw = (p) => <Icon p={p}><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></Icon>;
-        const AlertTriangle = (p) => <Icon p={p}><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></Icon>;
-        const Clock = (p) => <Icon p={p}><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></Icon>;
-        const Filter = (p) => <Icon p={p}><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></Icon>;
-        const XCircle = (p) => <Icon p={p}><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></Icon>;
-        const Lock = (p) => <Icon p={p}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></Icon>;
+        loadData();
+        alert("Localização atualizada!");
+      }).withFailureHandler(err => alert("Erro: " + err)).updateLocation(targetItem.id, newLocationValue, authData.user, authData.pass);
+    } else if (authAction === 'delete') {
+      google.script.run.withSuccessHandler(() => {
+        setIsAuthModalOpen(false);
+        setAuthData({
+          user: '',
+          pass: ''
+        });
+        loadData();
+        alert("Item excluído!");
+      }).withFailureHandler(err => alert("Erro: " + err)).deleteItem(targetItem.id, authData.user, authData.pass);
+    }
+  };
+  const openEditLocation = item => {
+    setTargetItem(item);
+    setNewLocationValue(item.caixa || "");
+    setIsLocationModalOpen(true);
+  };
+  const requestEditAuth = () => {
+    setIsLocationModalOpen(false);
+    setAuthAction('edit');
+    setIsAuthModalOpen(true);
+  };
+  const requestDeleteAuth = item => {
+    if (confirm(`Deseja excluir o item ${item.codigo} - ${item.nome}?`)) {
+      setTargetItem(item);
+      setAuthAction('delete');
+      setIsAuthModalOpen(true);
+    }
+  };
+  const confirmSaveNew = () => {
+    setSubmitting(true);
+    google.script.run.withSuccessHandler(() => {
+      setSubmitting(false);
+      setIsModalOpen(false);
+      setIsPreviewMode(false);
+      setFormData(initialFormState);
+      loadData();
+      alert("Cartela salva!");
+    }).withFailureHandler(err => {
+      setSubmitting(false);
+      alert("Erro ao salvar: " + err);
+    }).addCartela(formData);
+  };
+  const filteredItems = useMemo(() => {
+    return items.filter(item => {
+      const norm = str => str ? str.toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().trim() : "";
+      const term = normalizeStr(searchTerm);
+      const matchGeneral = term === '' || norm(item.cliente).includes(term) || norm(item.codigo).includes(term) || norm(item.nome).includes(term) || norm(item.cor).includes(term) || norm(item.ref).includes(term) || norm(item.caixa).includes(term);
+      const matchCliente = filters.cliente ? norm(item.cliente).includes(normalizeStr(filters.cliente)) : true;
+      const matchCod = filters.codigo ? norm(item.codigo).includes(normalizeStr(filters.codigo)) : true;
+      const matchNome = filters.nome ? norm(item.nome).includes(normalizeStr(filters.nome)) : true;
+      const matchRef = filters.ref ? norm(item.ref).includes(normalizeStr(filters.ref)) : true;
+      const matchCor = filters.cor ? norm(item.cor).includes(normalizeStr(filters.cor)) : true;
+      return matchGeneral && matchCliente && matchCod && matchNome && matchRef && matchCor;
+    });
+  }, [items, searchTerm, filters]);
 
-        const { useState, useEffect, useMemo } = React;
-
-        const normalizeStr = (str) => str ? str.toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().trim() : "";
-        const formatDate = (d) => d || '-';
-
-        // --- NOVO CARD BAHIA ---
-        const CardItem = ({ item, isInteractive = true, onEditLocation, onDelete }) => (
-            <div className={`bg-white rounded-lg border border-slate-300 shadow-sm flex flex-col lg:flex-row overflow-hidden ${isInteractive ? 'card-row' : ''}`}>
-                {/* 1. IDENTIDADE (Esquerda) */}
-                <div className="w-full lg:w-56 bg-slate-50 border-b lg:border-b-0 lg:border-r border-slate-300 p-4 flex flex-col justify-center items-center shrink-0">
-                    <div className="w-full mb-3 flex flex-col items-center gap-2">
-                        {item.caixa ? (
-                            <div className="bg-slate-900 text-white py-2 px-2 rounded-md text-center shadow-sm w-full">
-                                <span className="block text-[10px] text-slate-400 uppercase font-bold tracking-widest">LOCALIZAÇÃO</span>
-                                <span className="block text-lg font-extrabold uppercase tracking-wide">CAIXA: {item.caixa}</span>
-                            </div>
-                        ) : (
-                            <div className="bg-red-50 border border-red-100 text-red-600 py-2 px-2 rounded-md text-center w-full">
-                                <span className="block text-xs font-bold leading-tight">Verificar localização com a pessoa responsável</span>
-                            </div>
-                        )}
-                        {isInteractive && (
-                            <button onClick={() => onEditLocation(item)} className="text-xs flex items-center gap-1 px-3 py-1 bg-white border border-slate-200 rounded-full text-blue-600 font-semibold hover:bg-blue-50 transition-colors shadow-sm">
-                                <Pencil size={12} /> Alterar
-                            </button>
-                        )}
-                    </div>
-                    <div className="w-full text-center border-t border-slate-200 pt-2">
-                        <span className="block text-[10px] text-slate-400 font-bold uppercase mb-0.5">CÓDIGO</span>
-                        <span className="block font-mono text-xl font-black text-slate-700 tracking-tight">{item.codigo || "-"}</span>
-                    </div>
-                </div>
-
-                {/* 2. DADOS TÉCNICOS (Grid) */}
-                <div className="flex-1 grid grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 bg-white">
-                    <div className="col-span-12 lg:col-span-4 p-3 flex flex-col justify-center">
-                        <div className="mb-3"><label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">CLIENTE</label><div className="text-sm font-bold text-slate-900 leading-snug break-words">{item.cliente || "-"}</div></div>
-                        <div><label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">NOME DO ITEM</label><div className="text-sm text-slate-700 font-medium break-words">{item.nome || "-"}</div></div>
-                    </div>
-                    <div className="col-span-12 lg:col-span-4 p-3 grid grid-cols-2 gap-y-3 gap-x-2">
-                        <div><label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">REF</label><div className="text-sm text-slate-700 font-medium">{item.ref || "-"}</div></div>
-                        <div><label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">COR</label><div className="text-sm text-slate-700 font-medium break-words">{item.cor || "-"}</div></div>
-                        <div><label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">LARGURA</label><div className="text-sm text-slate-700 font-medium">{item.largura || "-"}</div></div>
-                        <div><label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">ENCHIMENTO</label><div className="text-sm text-slate-700 font-medium">{item.enchimento || "-"}</div></div>
-                    </div>
-                    <div className="col-span-12 lg:col-span-4 p-3 bg-slate-50/30 flex flex-col h-full justify-between">
-                        <div className="mb-2">
-                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">OBSERVAÇÕES</label>
-                            <div className="text-xs text-slate-600 leading-relaxed whitespace-pre-wrap break-words min-h-[40px]">
-                                {item.observacao || "Sem observações."}
-                            </div>
-                        </div>
-                        <div className="pt-2 border-t border-slate-200">
-                            <div className="flex justify-between items-center mb-2">
-                                <div><label className="block text-[9px] font-bold text-slate-400 uppercase">DATA ENTRADA</label><div className="text-xs font-bold text-slate-700 bg-white border border-slate-200 px-2 py-0.5 rounded inline-block">{formatDate(item.dataEntrada)}</div></div>
-                                {isInteractive && (
-                                    <button onClick={() => onDelete(item)} className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors" title="Excluir">
-                                        <Trash2 size={14} />
-                                    </button>
-                                )}
-                            </div>
-                            {item.alteracoes && (
-                                <div className="flex items-center gap-1 text-[9px] text-slate-400 bg-slate-100 px-2 py-1 rounded w-fit truncate max-w-full" title={item.alteracoes}>
-                                    <Clock size={10} />
-                                    <span>{item.alteracoes}</span>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-
-        // --- SISTEMA DE MODAL ---
-        const ModalSystem = ({ config, onClose }) => {
-            if (!config.isOpen) return null;
-            return (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm">
-                    <div className="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6">
-                        <div className="flex items-start gap-4">
-                            <div className="flex-1">
-                                <h3 className="text-lg font-bold text-slate-900 mb-1">{config.title || 'Aviso'}</h3>
-                                <p className="text-slate-600 text-sm leading-relaxed">{config.message}</p>
-                            </div>
-                        </div>
-                        <div className="mt-6 flex justify-end gap-3">
-                            {(config.type === 'confirm' || config.type === 'danger' || config.type === 'lock') && (
-                                <button onClick={onClose} className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg">Cancelar</button>
-                            )}
-                            <button onClick={() => { if(config.onConfirm) config.onConfirm(); onClose(); }} className={`px-4 py-2 text-sm font-medium text-white rounded-lg shadow-sm ${config.type === 'error' || config.type === 'danger' ? 'bg-red-600 hover:bg-red-700' : 'bg-slate-900 hover:bg-slate-800'}`}>
-                                {config.confirmText || 'OK'}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
-
-        function App() {
-            const [items, setItems] = useState([]);
-            const [loading, setLoading] = useState(true);
-            const [searchTerm, setSearchTerm] = useState('');
-            const [filters, setFilters] = useState({ cliente: '', codigo: '', nome: '', ref: '', cor: '' });
-            const [isModalOpen, setIsModalOpen] = useState(false);
-            const [isPreviewMode, setIsPreviewMode] = useState(false);
-            const [submitting, setSubmitting] = useState(false);
-            const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
-            const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-            const [authAction, setAuthAction] = useState(null);
-            const [targetItem, setTargetItem] = useState(null);
-            const [newLocationValue, setNewLocationValue] = useState("");
-            const [authData, setAuthData] = useState({ user: '', pass: '' });
-            const [modalConfig, setModalConfig] = useState({ isOpen: false });
-
-            const initialFormState = {
-                nome: '', cor: '', ref: '', largura: '', cliente: '', caixa: '',
-                dataEntrada: new Date().toISOString().split('T')[0],
-                observacao: '', codigo: '', enchimento: ''
-            };
-            const [formData, setFormData] = useState(initialFormState);
-
-            const loadData = () => {
-                setLoading(true);
-                if (window.google && window.google.script) {
-                    google.script.run.withSuccessHandler(serverData => {
-                        setItems(serverData);
-                        setLoading(false);
-                    }).withFailureHandler(error => { alert('Erro ao carregar: ' + error); setLoading(false); }).getCartelas();
-                } else { setLoading(false); }
-            };
-
-            useEffect(() => { loadData(); }, []);
-
-            const handleFilterChange = (e) => {
-                const { name, value } = e.target;
-                setFilters(prev => ({ ...prev, [name]: value }));
-            };
-            const clearFilters = () => setFilters({ cliente: '', codigo: '', nome: '', ref: '', cor: '' });
-
-            const handleAuthSubmit = (e) => {
-                e.preventDefault();
-                if (!authData.user || !authData.pass) return alert("Preencha usuário e senha.");
-                if (authAction === 'edit') {
-                    google.script.run.withSuccessHandler(() => {
-                        setIsAuthModalOpen(false); setIsLocationModalOpen(false);
-                        setAuthData({ user: '', pass: '' });
-                        loadData();
-                        alert("Localização atualizada!");
-                    }).withFailureHandler(err => alert("Erro: " + err))
-                    .updateLocation(targetItem.id, newLocationValue, authData.user, authData.pass);
-                } else if (authAction === 'delete') {
-                    google.script.run.withSuccessHandler(() => {
-                        setIsAuthModalOpen(false); setAuthData({ user: '', pass: '' });
-                        loadData();
-                        alert("Item excluído!");
-                    }).withFailureHandler(err => alert("Erro: " + err))
-                    .deleteItem(targetItem.id, authData.user, authData.pass);
-                }
-            };
-
-            const openEditLocation = (item) => {
-                setTargetItem(item);
-                setNewLocationValue(item.caixa || "");
-                setIsLocationModalOpen(true);
-            };
-
-            const requestEditAuth = () => {
-                setIsLocationModalOpen(false);
-                setAuthAction('edit');
-                setIsAuthModalOpen(true);
-            };
-
-            const requestDeleteAuth = (item) => {
-                if(confirm(`Deseja excluir o item ${item.codigo} - ${item.nome}?`)) {
-                    setTargetItem(item);
-                    setAuthAction('delete');
-                    setIsAuthModalOpen(true);
-                }
-            };
-
-            const confirmSaveNew = () => {
-                setSubmitting(true);
-                google.script.run.withSuccessHandler(() => {
-                    setSubmitting(false);
-                    setIsModalOpen(false);
-                    setIsPreviewMode(false);
-                    setFormData(initialFormState);
-                    loadData();
-                    alert("Cartela salva!");
-                }).withFailureHandler(err => {
-                    setSubmitting(false);
-                    alert("Erro ao salvar: " + err);
-                }).addCartela(formData);
-            };
-
-            const filteredItems = useMemo(() => {
-                return items.filter(item => {
-                    const norm = (str) => str ? str.toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().trim() : "";
-                    const term = normalizeStr(searchTerm);
-                    const matchGeneral = term === '' || 
-                        norm(item.cliente).includes(term) || norm(item.codigo).includes(term) || 
-                        norm(item.nome).includes(term) || norm(item.cor).includes(term) ||
-                        norm(item.ref).includes(term) || norm(item.caixa).includes(term);
-                    const matchCliente = filters.cliente ? norm(item.cliente).includes(normalizeStr(filters.cliente)) : true;
-                    const matchCod = filters.codigo ? norm(item.codigo).includes(normalizeStr(filters.codigo)) : true;
-                    const matchNome = filters.nome ? norm(item.nome).includes(normalizeStr(filters.nome)) : true;
-                    const matchRef = filters.ref ? norm(item.ref).includes(normalizeStr(filters.ref)) : true;
-                    const matchCor = filters.cor ? norm(item.cor).includes(normalizeStr(filters.cor)) : true;
-                    return matchGeneral && matchCliente && matchCod && matchNome && matchRef && matchCor;
-                });
-            }, [items, searchTerm, filters]);
-
-            // Estilos comuns para inputs do formulário
-            const inputClass = "w-full border border-slate-400 bg-slate-50 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all shadow-sm";
-
-            return (
-                <div className="min-h-screen bg-slate-50 font-sans text-slate-800 pb-20 relative">
-                    <header className="bg-white border-b border-slate-200 sticky top-0 z-20 shadow-sm">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <div className="h-12 w-12 rounded-lg bg-slate-100 flex items-center justify-center overflow-hidden border border-slate-200">
-                                    <img src="https://i.ibb.co/FGGjdsM/LOGO-MARFIM.jpg" alt="Logo" className="h-full w-full object-contain mix-blend-multiply" onError={(e) => {e.target.style.display='none';}} />
-                                </div>
-                                <div><h1 className="text-xl font-bold text-slate-900 leading-none">Cartelas Bahia</h1><span className="text-xs text-slate-500 font-medium">{items.length} registros</span></div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <button onClick={loadData} className="p-2 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 text-slate-600 transition-colors" title="Atualizar"><RefreshCw size={18} /></button>
-                                <button onClick={() => {setFormData(initialFormState); setIsPreviewMode(false); setIsModalOpen(true);}} className="flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-lg hover:bg-slate-800 text-sm font-medium shadow-lg transition-all"><Plus size={18} /> <span className="hidden sm:inline">Nova</span></button>
-                            </div>
-                        </div>
-                    </header>
-
-                    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                        <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-6">
-                            <div className="flex items-center gap-2 mb-3 text-slate-500 text-xs font-bold uppercase tracking-wider"><Filter size={14} /> Filtros</div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-                                <input type="text" name="cliente" placeholder="Cliente" value={filters.cliente} onChange={handleFilterChange} className="border border-slate-300 rounded-lg p-2 text-sm outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900" />
-                                <input type="text" name="codigo" placeholder="Código" value={filters.codigo} onChange={handleFilterChange} className="border border-slate-300 rounded-lg p-2 text-sm outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900" />
-                                <input type="text" name="nome" placeholder="Nome" value={filters.nome} onChange={handleFilterChange} className="border border-slate-300 rounded-lg p-2 text-sm outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900" />
-                                <input type="text" name="ref" placeholder="Referência" value={filters.ref} onChange={handleFilterChange} className="border border-slate-300 rounded-lg p-2 text-sm outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900" />
-                                <input type="text" name="cor" placeholder="Cor" value={filters.cor} onChange={handleFilterChange} className="border border-slate-300 rounded-lg p-2 text-sm outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900" />
-                            </div>
-                            <div className="flex justify-between items-center mt-3 pt-3 border-t border-slate-100">
-                                <span className="text-xs text-slate-400">{filteredItems.length} resultados</span>
-                                <button onClick={clearFilters} className="text-xs font-medium text-red-500 hover:text-red-700 flex items-center gap-1"><XCircle size={14} /> Limpar</button>
-                            </div>
-                        </div>
-
-                        {loading ? <div className="p-12 flex justify-center"><div className="spinner"></div></div> : filteredItems.length === 0 ? <div className="p-12 text-center text-slate-500">Nenhum registro.</div> : (
-                            <div className="flex flex-col gap-3">
-                                {filteredItems.slice(0, 100).map((item) => (
-                                    <CardItem key={item.id} item={item} isInteractive={true} onEditLocation={openEditLocation} onDelete={requestDeleteAuth} />
-                                ))}
-                            </div>
-                        )}
-                    </main>
-
-                    {isLocationModalOpen && targetItem && (
-                        <div className="fixed inset-0 z-[90] flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm">
-                            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-fade-in">
-                                <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2"><MapPin className="text-blue-600"/> Nova Localização</h3>
-                                <p className="text-sm text-slate-500 mb-4">Novo código para <b>{targetItem.codigo}</b>.</p>
-                                <input autoFocus type="text" value={newLocationValue} onChange={(e) => setNewLocationValue(e.target.value.toUpperCase())} className="w-full border-2 border-blue-100 rounded-lg p-3 text-lg font-bold text-slate-900 uppercase mb-6 outline-none focus:border-blue-500" placeholder="EX: A1" />
-                                <div className="flex justify-end gap-3">
-                                    <button onClick={() => setIsLocationModalOpen(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg">Cancelar</button>
-                                    <button onClick={requestEditAuth} className="px-6 py-2 bg-blue-600 text-white text-sm font-bold rounded-lg hover:bg-blue-700 shadow-lg">Continuar</button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {isAuthModalOpen && (
-                        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm">
-                            <div className="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 animate-fade-in border-t-4 border-slate-900">
-                                <div className="mb-6 text-center">
-                                    <div className="mx-auto bg-slate-100 w-12 h-12 rounded-full flex items-center justify-center mb-3 text-slate-700"><Lock size={24} /></div>
-                                    <h3 className="text-xl font-bold text-slate-900">Autorização</h3>
-                                </div>
-                                <form onSubmit={handleAuthSubmit}>
-                                    <div className="space-y-4 mb-6">
-                                        <div><label className="block text-xs font-bold text-slate-500 uppercase mb-1">Usuário</label><input required type="text" value={authData.user} onChange={(e) => setAuthData({...authData, user: e.target.value})} className="w-full border border-slate-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-slate-900" /></div>
-                                        <div><label className="block text-xs font-bold text-slate-500 uppercase mb-1">Senha</label><input required type="password" value={authData.pass} onChange={(e) => setAuthData({...authData, pass: e.target.value})} className="w-full border border-slate-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-slate-900" /></div>
-                                    </div>
-                                    <div className="flex gap-3">
-                                        <button type="button" onClick={() => {setIsAuthModalOpen(false); setAuthData({user:'', pass:''});}} className="flex-1 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg">Cancelar</button>
-                                        <button type="submit" className="flex-1 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-lg hover:bg-slate-800 shadow-lg">Confirmar</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    )}
-
-                    {isModalOpen && (
-                        <div className="fixed inset-0 z-40 overflow-y-auto">
-                            <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                                <div className="fixed inset-0 transition-opacity" onClick={() => setIsModalOpen(false)}><div className="absolute inset-0 bg-slate-900 opacity-75"></div></div>
-                                <div className="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full animate-fade-in">
-                                    {!isPreviewMode ? (
-                                        <form onSubmit={(e) => {e.preventDefault(); setIsPreviewMode(true);}}>
-                                            <div className="bg-white px-6 pt-6 pb-4">
-                                                <div className="flex justify-between items-center mb-6 border-b border-slate-100 pb-4"><h3 className="text-xl font-bold text-slate-900">Nova Cartela</h3><button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600"><XIcon size={24} /></button></div>
-                                                <div className="grid grid-cols-1 sm:grid-cols-12 gap-5">
-                                                    <div className="sm:col-span-3"><label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Caixa</label><input required name="caixa" value={formData.caixa} onChange={(e) => setFormData({...formData, caixa: e.target.value})} className={inputClass} /></div>
-                                                    <div className="sm:col-span-3"><label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Código</label><input required name="codigo" value={formData.codigo} onChange={(e) => setFormData({...formData, codigo: e.target.value})} className={inputClass} /></div>
-                                                    <div className="sm:col-span-6"><label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Cliente</label><input required name="cliente" value={formData.cliente} onChange={(e) => setFormData({...formData, cliente: e.target.value})} className={inputClass} /></div>
-                                                    
-                                                    <div className="sm:col-span-6"><label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Nome</label><input required name="nome" value={formData.nome} onChange={(e) => setFormData({...formData, nome: e.target.value})} className={inputClass} /></div>
-                                                    <div className="sm:col-span-6"><label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Ref</label><input required name="ref" value={formData.ref} onChange={(e) => setFormData({...formData, ref: e.target.value})} className={inputClass} /></div>
-                                                    
-                                                    <div className="sm:col-span-4"><label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Cor</label><input required name="cor" value={formData.cor} onChange={(e) => setFormData({...formData, cor: e.target.value})} className={inputClass} /></div>
-                                                    <div className="sm:col-span-4"><label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Largura</label><input name="largura" value={formData.largura} onChange={(e) => setFormData({...formData, largura: e.target.value})} className={inputClass} /></div>
-                                                    <div className="sm:col-span-4"><label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Enchimento</label><input name="enchimento" value={formData.enchimento} onChange={(e) => setFormData({...formData, enchimento: e.target.value})} className={inputClass} /></div>
-                                                    
-                                                    <div className="sm:col-span-4"><label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Data</label><input type="date" required name="dataEntrada" value={formData.dataEntrada} onChange={(e) => setFormData({...formData, dataEntrada: e.target.value})} className={inputClass} /></div>
-                                                    <div className="sm:col-span-8"><label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Obs</label><input name="observacao" value={formData.observacao} onChange={(e) => setFormData({...formData, observacao: e.target.value})} className={inputClass} /></div>
-                                                </div>
-                                                <div className="mt-6 flex flex-row-reverse gap-3">
-                                                    <button type="submit" className="inline-flex justify-center rounded-lg bg-slate-900 px-6 py-2.5 text-base font-bold text-white hover:bg-slate-800 sm:text-sm">Gerar Card</button>
-                                                    <button type="button" onClick={() => setIsModalOpen(false)} className="inline-flex justify-center rounded-lg border border-slate-300 px-6 py-2.5 bg-white text-base font-medium text-slate-700 hover:bg-slate-50 sm:text-sm">Cancelar</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    ) : (
-                                        <div className="bg-slate-100 p-6">
-                                            <div className="flex justify-between items-center mb-4">
-                                                <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2"><CheckCircle className="text-green-600" /> Confirme os dados</h3>
-                                                <button onClick={() => setIsPreviewMode(false)} className="text-slate-500 hover:text-slate-700 text-sm flex items-center gap-1"><ArrowLeft size={14}/> Editar</button>
-                                            </div>
-                                            <div className="mb-6 pointer-events-none select-none"><CardItem item={formData} isInteractive={false} /></div>
-                                            <div className="flex flex-col sm:flex-row-reverse gap-3">
-                                                <button onClick={confirmSaveNew} disabled={submitting} className="w-full sm:w-auto inline-flex justify-center items-center gap-2 rounded-lg bg-green-600 px-6 py-3 text-base font-bold text-white hover:bg-green-700 sm:text-sm">{submitting ? 'Salvando...' : 'Confirmar Inserção'}</button>
-                                                <button onClick={() => setIsPreviewMode(false)} className="w-full sm:w-auto inline-flex justify-center rounded-lg border border-slate-300 px-6 py-3 bg-white text-base font-medium text-slate-700 hover:bg-slate-50 sm:text-sm">Voltar</button>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                    <footer className="text-center text-xs text-slate-400 py-8">Relação de Cartelas Bahia</footer>
-                </div>
-            );
-        }
-
-        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  // Estilos comuns para inputs do formulário
+  const inputClass = "w-full border border-slate-400 bg-slate-50 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all shadow-sm";
+  return /*#__PURE__*/React.createElement("div", {
+    className: "min-h-screen bg-slate-50 font-sans text-slate-800 pb-20 relative"
+  }, /*#__PURE__*/React.createElement("header", {
+    className: "bg-white border-b border-slate-200 sticky top-0 z-20 shadow-sm"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "h-12 w-12 rounded-lg bg-slate-100 flex items-center justify-center overflow-hidden border border-slate-200"
+  }, /*#__PURE__*/React.createElement("img", {
+    src: "https://i.ibb.co/FGGjdsM/LOGO-MARFIM.jpg",
+    alt: "Logo",
+    className: "h-full w-full object-contain mix-blend-multiply",
+    onError: e => {
+      e.target.style.display = 'none';
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", {
+    className: "text-xl font-bold text-slate-900 leading-none"
+  }, "Cartelas Bahia"), /*#__PURE__*/React.createElement("span", {
+    className: "text-xs text-slate-500 font-medium"
+  }, items.length, " registros"))), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: loadData,
+    className: "p-2 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 text-slate-600 transition-colors",
+    title: "Atualizar"
+  }, /*#__PURE__*/React.createElement(RefreshCw, {
+    size: 18
+  })), /*#__PURE__*/React.createElement("button", {
+    onClick: () => {
+      setFormData(initialFormState);
+      setIsPreviewMode(false);
+      setIsModalOpen(true);
+    },
+    className: "flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-lg hover:bg-slate-800 text-sm font-medium shadow-lg transition-all"
+  }, /*#__PURE__*/React.createElement(Plus, {
+    size: 18
+  }), " ", /*#__PURE__*/React.createElement("span", {
+    className: "hidden sm:inline"
+  }, "Nova"))))), /*#__PURE__*/React.createElement("main", {
+    className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-6"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2 mb-3 text-slate-500 text-xs font-bold uppercase tracking-wider"
+  }, /*#__PURE__*/React.createElement(Filter, {
+    size: 14
+  }), " Filtros"), /*#__PURE__*/React.createElement("div", {
+    className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    name: "cliente",
+    placeholder: "Cliente",
+    value: filters.cliente,
+    onChange: handleFilterChange,
+    className: "border border-slate-300 rounded-lg p-2 text-sm outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900"
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    name: "codigo",
+    placeholder: "Código",
+    value: filters.codigo,
+    onChange: handleFilterChange,
+    className: "border border-slate-300 rounded-lg p-2 text-sm outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900"
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    name: "nome",
+    placeholder: "Nome",
+    value: filters.nome,
+    onChange: handleFilterChange,
+    className: "border border-slate-300 rounded-lg p-2 text-sm outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900"
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    name: "ref",
+    placeholder: "Referência",
+    value: filters.ref,
+    onChange: handleFilterChange,
+    className: "border border-slate-300 rounded-lg p-2 text-sm outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900"
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    name: "cor",
+    placeholder: "Cor",
+    value: filters.cor,
+    onChange: handleFilterChange,
+    className: "border border-slate-300 rounded-lg p-2 text-sm outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between items-center mt-3 pt-3 border-t border-slate-100"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-xs text-slate-400"
+  }, filteredItems.length, " resultados"), /*#__PURE__*/React.createElement("button", {
+    onClick: clearFilters,
+    className: "text-xs font-medium text-red-500 hover:text-red-700 flex items-center gap-1"
+  }, /*#__PURE__*/React.createElement(XCircle, {
+    size: 14
+  }), " Limpar"))), loading ? /*#__PURE__*/React.createElement("div", {
+    className: "p-12 flex justify-center"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "spinner"
+  })) : filteredItems.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    className: "p-12 text-center text-slate-500"
+  }, "Nenhum registro.") : /*#__PURE__*/React.createElement("div", {
+    className: "flex flex-col gap-3"
+  }, filteredItems.slice(0, 100).map(item => /*#__PURE__*/React.createElement(CardItem, {
+    key: item.id,
+    item: item,
+    isInteractive: true,
+    onEditLocation: openEditLocation,
+    onDelete: requestDeleteAuth
+  })))), isLocationModalOpen && targetItem && /*#__PURE__*/React.createElement("div", {
+    className: "fixed inset-0 z-[90] flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-fade-in"
+  }, /*#__PURE__*/React.createElement("h3", {
+    className: "text-lg font-bold text-slate-900 mb-2 flex items-center gap-2"
+  }, /*#__PURE__*/React.createElement(MapPin, {
+    className: "text-blue-600"
+  }), " Nova Localização"), /*#__PURE__*/React.createElement("p", {
+    className: "text-sm text-slate-500 mb-4"
+  }, "Novo código para ", /*#__PURE__*/React.createElement("b", null, targetItem.codigo), "."), /*#__PURE__*/React.createElement("input", {
+    autoFocus: true,
+    type: "text",
+    value: newLocationValue,
+    onChange: e => setNewLocationValue(e.target.value.toUpperCase()),
+    className: "w-full border-2 border-blue-100 rounded-lg p-3 text-lg font-bold text-slate-900 uppercase mb-6 outline-none focus:border-blue-500",
+    placeholder: "EX: A1"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-end gap-3"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: () => setIsLocationModalOpen(false),
+    className: "px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg"
+  }, "Cancelar"), /*#__PURE__*/React.createElement("button", {
+    onClick: requestEditAuth,
+    className: "px-6 py-2 bg-blue-600 text-white text-sm font-bold rounded-lg hover:bg-blue-700 shadow-lg"
+  }, "Continuar")))), isAuthModalOpen && /*#__PURE__*/React.createElement("div", {
+    className: "fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 animate-fade-in border-t-4 border-slate-900"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mb-6 text-center"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mx-auto bg-slate-100 w-12 h-12 rounded-full flex items-center justify-center mb-3 text-slate-700"
+  }, /*#__PURE__*/React.createElement(Lock, {
+    size: 24
+  })), /*#__PURE__*/React.createElement("h3", {
+    className: "text-xl font-bold text-slate-900"
+  }, "Autorização")), /*#__PURE__*/React.createElement("form", {
+    onSubmit: handleAuthSubmit
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "space-y-4 mb-6"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold text-slate-500 uppercase mb-1"
+  }, "Usuário"), /*#__PURE__*/React.createElement("input", {
+    required: true,
+    type: "text",
+    value: authData.user,
+    onChange: e => setAuthData({
+      ...authData,
+      user: e.target.value
+    }),
+    className: "w-full border border-slate-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-slate-900"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold text-slate-500 uppercase mb-1"
+  }, "Senha"), /*#__PURE__*/React.createElement("input", {
+    required: true,
+    type: "password",
+    value: authData.pass,
+    onChange: e => setAuthData({
+      ...authData,
+      pass: e.target.value
+    }),
+    className: "w-full border border-slate-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-slate-900"
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "flex gap-3"
+  }, /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => {
+      setIsAuthModalOpen(false);
+      setAuthData({
+        user: '',
+        pass: ''
+      });
+    },
+    className: "flex-1 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg"
+  }, "Cancelar"), /*#__PURE__*/React.createElement("button", {
+    type: "submit",
+    className: "flex-1 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-lg hover:bg-slate-800 shadow-lg"
+  }, "Confirmar"))))), isModalOpen && /*#__PURE__*/React.createElement("div", {
+    className: "fixed inset-0 z-40 overflow-y-auto"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "fixed inset-0 transition-opacity",
+    onClick: () => setIsModalOpen(false)
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "absolute inset-0 bg-slate-900 opacity-75"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full animate-fade-in"
+  }, !isPreviewMode ? /*#__PURE__*/React.createElement("form", {
+    onSubmit: e => {
+      e.preventDefault();
+      setIsPreviewMode(true);
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-white px-6 pt-6 pb-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between items-center mb-6 border-b border-slate-100 pb-4"
+  }, /*#__PURE__*/React.createElement("h3", {
+    className: "text-xl font-bold text-slate-900"
+  }, "Nova Cartela"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setIsModalOpen(false),
+    className: "text-slate-400 hover:text-slate-600"
+  }, /*#__PURE__*/React.createElement(XIcon, {
+    size: 24
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "grid grid-cols-1 sm:grid-cols-12 gap-5"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "sm:col-span-3"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1"
+  }, "Caixa"), /*#__PURE__*/React.createElement("input", {
+    required: true,
+    name: "caixa",
+    value: formData.caixa,
+    onChange: e => setFormData({
+      ...formData,
+      caixa: e.target.value
+    }),
+    className: inputClass
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "sm:col-span-3"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1"
+  }, "Código"), /*#__PURE__*/React.createElement("input", {
+    required: true,
+    name: "codigo",
+    value: formData.codigo,
+    onChange: e => setFormData({
+      ...formData,
+      codigo: e.target.value
+    }),
+    className: inputClass
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "sm:col-span-6"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1"
+  }, "Cliente"), /*#__PURE__*/React.createElement("input", {
+    required: true,
+    name: "cliente",
+    value: formData.cliente,
+    onChange: e => setFormData({
+      ...formData,
+      cliente: e.target.value
+    }),
+    className: inputClass
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "sm:col-span-6"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1"
+  }, "Nome"), /*#__PURE__*/React.createElement("input", {
+    required: true,
+    name: "nome",
+    value: formData.nome,
+    onChange: e => setFormData({
+      ...formData,
+      nome: e.target.value
+    }),
+    className: inputClass
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "sm:col-span-6"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1"
+  }, "Ref"), /*#__PURE__*/React.createElement("input", {
+    required: true,
+    name: "ref",
+    value: formData.ref,
+    onChange: e => setFormData({
+      ...formData,
+      ref: e.target.value
+    }),
+    className: inputClass
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "sm:col-span-4"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1"
+  }, "Cor"), /*#__PURE__*/React.createElement("input", {
+    required: true,
+    name: "cor",
+    value: formData.cor,
+    onChange: e => setFormData({
+      ...formData,
+      cor: e.target.value
+    }),
+    className: inputClass
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "sm:col-span-4"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1"
+  }, "Largura"), /*#__PURE__*/React.createElement("input", {
+    name: "largura",
+    value: formData.largura,
+    onChange: e => setFormData({
+      ...formData,
+      largura: e.target.value
+    }),
+    className: inputClass
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "sm:col-span-4"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1"
+  }, "Enchimento"), /*#__PURE__*/React.createElement("input", {
+    name: "enchimento",
+    value: formData.enchimento,
+    onChange: e => setFormData({
+      ...formData,
+      enchimento: e.target.value
+    }),
+    className: inputClass
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "sm:col-span-4"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1"
+  }, "Data"), /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    required: true,
+    name: "dataEntrada",
+    value: formData.dataEntrada,
+    onChange: e => setFormData({
+      ...formData,
+      dataEntrada: e.target.value
+    }),
+    className: inputClass
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "sm:col-span-8"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1"
+  }, "Obs"), /*#__PURE__*/React.createElement("input", {
+    name: "observacao",
+    value: formData.observacao,
+    onChange: e => setFormData({
+      ...formData,
+      observacao: e.target.value
+    }),
+    className: inputClass
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "mt-6 flex flex-row-reverse gap-3"
+  }, /*#__PURE__*/React.createElement("button", {
+    type: "submit",
+    className: "inline-flex justify-center rounded-lg bg-slate-900 px-6 py-2.5 text-base font-bold text-white hover:bg-slate-800 sm:text-sm"
+  }, "Gerar Card"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => setIsModalOpen(false),
+    className: "inline-flex justify-center rounded-lg border border-slate-300 px-6 py-2.5 bg-white text-base font-medium text-slate-700 hover:bg-slate-50 sm:text-sm"
+  }, "Cancelar")))) : /*#__PURE__*/React.createElement("div", {
+    className: "bg-slate-100 p-6"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between items-center mb-4"
+  }, /*#__PURE__*/React.createElement("h3", {
+    className: "text-lg font-bold text-slate-900 flex items-center gap-2"
+  }, /*#__PURE__*/React.createElement(CheckCircle, {
+    className: "text-green-600"
+  }), " Confirme os dados"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setIsPreviewMode(false),
+    className: "text-slate-500 hover:text-slate-700 text-sm flex items-center gap-1"
+  }, /*#__PURE__*/React.createElement(ArrowLeft, {
+    size: 14
+  }), " Editar")), /*#__PURE__*/React.createElement("div", {
+    className: "mb-6 pointer-events-none select-none"
+  }, /*#__PURE__*/React.createElement(CardItem, {
+    item: formData,
+    isInteractive: false
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "flex flex-col sm:flex-row-reverse gap-3"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: confirmSaveNew,
+    disabled: submitting,
+    className: "w-full sm:w-auto inline-flex justify-center items-center gap-2 rounded-lg bg-green-600 px-6 py-3 text-base font-bold text-white hover:bg-green-700 sm:text-sm"
+  }, submitting ? 'Salvando...' : 'Confirmar Inserção'), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setIsPreviewMode(false),
+    className: "w-full sm:w-auto inline-flex justify-center rounded-lg border border-slate-300 px-6 py-3 bg-white text-base font-medium text-slate-700 hover:bg-slate-50 sm:text-sm"
+  }, "Voltar")))))), /*#__PURE__*/React.createElement("footer", {
+    className: "text-center text-xs text-slate-400 py-8"
+  }, "Relação de Cartelas Bahia"));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.createElement(App, null));
     </script>
 </body>
 </html>
