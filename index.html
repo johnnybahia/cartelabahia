@@ -26,7 +26,16 @@
 <body>
     <div id="root"></div>
 
-    <script type="text/babel">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var src = document.getElementById('app-jsx').textContent;
+            var compiled = Babel.transform(src, { presets: ['react'] }).code;
+            var s = document.createElement('script');
+            s.textContent = compiled;
+            document.body.appendChild(s);
+        });
+    </script>
+    <script id="app-jsx" type="text/plain">
         // --- ÍCONES ---
         const Icon = ({ p, children }) => <svg {...p} width={p.size||16} height={p.size||16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{children}</svg>;
         const Search = (p) => <Icon p={p}><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></Icon>;
